@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".presentation.HomePageActivity">
+    tools:context=".HomePageActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/root_layout"
@@ -22,15 +19,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                app:cardElevation="11dp"
+                android:layout_height="60dp">
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:text="@string/app_name"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
+
             <ImageView
                 android:id="@+id/img_display"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:layout_margin="5dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/uploadedImage"
-                android:scaleType="fitXY">
-
+                android:scaleType="centerCrop">
             </ImageView>
 
             <androidx.cardview.widget.CardView
@@ -43,30 +56,33 @@
                 app:cardElevation="11dp">
 
                 <LinearLayout
-                    android:layout_width="150sp"
-                    android:layout_height="120sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:padding="16dp"
                     android:orientation="vertical"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageButton
                         android:id="@+id/btn_add_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
                         android:contentDescription="@string/upload_image"
                         android:src="@drawable/baseline_cloud_upload_24"
-                        android:text="@string/upload_image"></ImageButton>
+                        android:text="@string/upload_image">
+                    </ImageButton>
 
-                    <Button
+                    <TextView
                         android:id="@+id/btnUploadImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
                         android:text="@string/upload_image"
                         android:textColor="@color/black"
-                        android:textSize="15sp"></Button>
+                        android:textSize="15sp">
+                    </TextView>
 
                     <!--                    <ProgressBar-->
                     <!--                        android:id="@+id/progress_bar"-->
@@ -77,18 +93,16 @@
                     <!--                        tools:progress="30">-->
                     <!--                    </ProgressBar>-->
 
-
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/suggested_items"
                 android:textColor="@color/black"
                 android:textSize="28sp"
@@ -96,139 +110,20 @@
 
             </TextView>
 
-            <androidx.cardview.widget.CardView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_recommend"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_margin="18dp"
-                android:backgroundTint="@color/white"
-                android:padding="11dp"
-                app:cardElevation="11dp">
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_margin="18dp"
-                android:backgroundTint="@color/white"
-                android:padding="11dp"
-                app:cardElevation="11dp">
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_margin="18dp"
-                android:backgroundTint="@color/white"
-                android:padding="11dp"
-                app:cardElevation="11dp">
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="@string/personalized_recommendations"
-                android:textColor="@color/black"
-                android:textSize="28sp"
-                android:textStyle="bold"></TextView>
+                android:layout_marginTop="10dp"
+                android:fillViewport="true"
+                tools:listitem="@layout/rcv_recommend_items"
+                android:orientation="vertical"
+                tools:itemCount="10">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:backgroundTint="@color/white"
-                android:padding="11dp"
-                app:cardElevation="11dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Sunglasses"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="10dp"
-                    android:text="Protect your eyes in style with our range of sunglasses."
-                    android:textColor="@color/black"
-                    android:textSize="16sp"></TextView>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="18dp"
-                android:backgroundTint="@color/white"
-                android:padding="11dp"
-                app:cardElevation="11dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Lipstick Shades"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="10dp"
-                    android:text="Find your perfect lipstick shades for your skin tone."
-                    android:textColor="@color/black"
-                    android:textSize="16sp"></TextView>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/white"
-                android:padding="11dp"
-                app:cardElevation="11dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Hair Color Ideas"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="10dp"
-                    android:text="Get inspired by our hair color ideas for a fresh look."
-                    android:textColor="@color/black"
-                    android:textSize="16sp"></TextView>
-
-            </androidx.cardview.widget.CardView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
