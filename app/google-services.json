@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "424321347649",
+    "project_id": "frar-63da1",
+    "storage_bucket": "frar-63da1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424321347649:android:c1211e0c6f0846185a16c0",
+        "android_client_info": {
+          "package_name": "com.example.frar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEymJ1ZTaGborvGaumnlShJsuAVQizmoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
