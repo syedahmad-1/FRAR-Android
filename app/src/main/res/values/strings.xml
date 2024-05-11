@@ -66,4 +66,6 @@
     <string name="uploadedImage">uploadedImage</string>
     <string name="suggested_items">Suggested Items</string>
     <string name="personalized_recommendations">Personalized Recommendations</string>
+    <string name="lorem_lpsum">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem Ipsum Lorem Ipsum</string>
+    <string name="style_type">Style Type\n</string>
 </resources>
