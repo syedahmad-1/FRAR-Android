@@ -22,35 +22,35 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                app:cardElevation="11dp"
+                android:layout_height="60dp"
                 app:cardBackgroundColor="@color/white"
-                android:layout_height="60dp">
+                app:cardElevation="11dp">
+
                 <TextView
                     android:id="@+id/toolbar_title"
-                    android:text="@string/app_name"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id="@+id/img_display"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/uploadedImage"
-                android:scaleType="centerCrop">
-            </ImageView>
+                android:scaleType="centerCrop"></ImageView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="120dp"
+                android:layout_gravity="center"
                 android:layout_marginVertical="10dp"
                 android:backgroundTint="@color/white"
                 android:padding="11dp"
@@ -61,8 +61,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:padding="16dp"
                     android:orientation="vertical"
+                    android:padding="16dp"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageButton
@@ -72,8 +72,7 @@
                         android:backgroundTint="@color/white"
                         android:contentDescription="@string/upload_image"
                         android:src="@drawable/baseline_cloud_upload_24"
-                        android:text="@string/upload_image">
-                    </ImageButton>
+                        android:text="@string/upload_image"></ImageButton>
 
                     <TextView
                         android:id="@+id/btnUploadImage"
@@ -82,8 +81,7 @@
                         android:backgroundTint="@color/white"
                         android:text="@string/upload_image"
                         android:textColor="@color/black"
-                        android:textSize="15sp">
-                    </TextView>
+                        android:textSize="15sp"></TextView>
 
                     <!--                    <ProgressBar-->
                     <!--                        android:id="@+id/progress_bar"-->
@@ -98,6 +96,186 @@
 
             </androidx.cardview.widget.CardView>
 
+            <LinearLayout
+                android:id="@+id/sliderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <LinearLayout
+                    android:paddingVertical="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/roundTv"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/round"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/roundSl"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/roundPercentTv"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="@string/_100"
+                        android:textColor="?attr/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingVertical="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/squareTv"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/square"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/squareSl"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/squarePercentTv"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="100"
+                        android:textColor="?attr/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingVertical="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ovalTv"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="Oval"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/ovalSl"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/ovalPercentTv"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="100"
+                        android:textColor="?attr/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingVertical="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/oblongTv"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="Oblong"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/oblongSl"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/oblongPercentTv"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="100"
+                        android:textColor="?attr/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingVertical="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/heartTv"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="Heart"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/heartSl"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/heartPercentTv"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="100"
+                        android:textColor="?attr/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:text="@string/result"
+                        android:padding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/resultTv"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="18sp"
+                        tools:text="Round"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
@@ -107,7 +285,8 @@
                 android:text="@string/suggested_items"
                 android:textColor="@color/black"
                 android:textSize="28sp"
-                android:textStyle="bold">
+                android:textStyle="bold"
+                android:visibility="visible">
 
             </TextView>
 
@@ -117,9 +296,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fillViewport="true"
-                tools:listitem="@layout/rcv_recommend_items"
                 android:orientation="vertical"
-                tools:itemCount="10">
+                android:visibility="visible"
+                tools:itemCount="10"
+                tools:listitem="@layout/rcv_recommend_items">
 
             </androidx.recyclerview.widget.RecyclerView>
 

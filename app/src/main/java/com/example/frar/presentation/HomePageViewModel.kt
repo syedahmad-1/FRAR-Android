@@ -1,6 +1,7 @@
 package com.example.frar.presentation
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -22,12 +23,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomePageViewModel @Inject constructor(application: Application, private val imageUploadRepository: ImageUploadRepository):AndroidViewModel(application) {
+    var isInitialized: Boolean = false
     private val _predictionResultLiveData = MutableLiveData<NetworkResult<Recommendation>>()
-    val predictionResponseLiveData: LiveData<NetworkResult<Recommendation>> get() = _predictionResultLiveData
+    val predictionResponseLiveData get() = _predictionResultLiveData
+
+
+    var imageUri: Uri? = null
+
+    private val _imageUriLiveData = MutableLiveData<Uri>()
+    val imageUriLiveData get() = _imageUriLiveData
+
 
 
     fun uploadImage(image:MultipartBody.Part) =viewModelScope.launch(Dispatchers.IO) {
         uploadImageToPredict(image)
+    }
+
+    fun setImageUriVm(uri:Uri){
+        Log.d("PhotoPicker", "Selected URI: $uri")
+        _imageUriLiveData.value = uri
+        isInitialized = true
     }
 
     private suspend fun uploadImageToPredict(image:MultipartBody.Part){

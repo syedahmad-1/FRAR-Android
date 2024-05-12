@@ -68,4 +68,8 @@
     <string name="personalized_recommendations">Personalized Recommendations</string>
     <string name="lorem_lpsum">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem Ipsum Lorem Ipsum</string>
     <string name="style_type">Style Type\n</string>
+    <string name="round">Round</string>
+    <string name="square">Square</string>
+    <string name="_100">100</string>
+    <string name="result">Result:</string>
 </resources>
