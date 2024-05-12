@@ -18,6 +18,7 @@ object NetworkModule {
     @Provides
     fun providesRetrofitBuilder(): Retrofit.Builder {
         val BASE_URL = "http://192.168.29.231:5000/"
+//        val BASE_URL ="http://127.0.0.1:5000/"
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)

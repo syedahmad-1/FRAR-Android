@@ -1,10 +1,12 @@
 package com.example.frar
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.frar.data.models.ItemRecommendation
 import com.example.frar.databinding.RcvRecommendItemsBinding
 
@@ -30,7 +32,10 @@ class MyAdapter() : ListAdapter<ItemRecommendation, MyAdapter.ViewHolder>(
         val item = getItem(position)
         holder.binding.tvTitle.text = item.title
         holder.binding.tvDescription.text = item.desc
-//        holder.binding
+        holder.binding.rcImage.load(item.imgUrl){
+            crossfade(100)
+                .error(R.drawable.icon_image_not_found_free_vector)
+        }
 
     }
 

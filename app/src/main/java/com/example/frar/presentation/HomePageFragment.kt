@@ -7,11 +7,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.frar.MyAdapter
 import com.example.frar.core.NetworkResult
 import com.example.frar.databinding.FragmentHomePageBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +33,7 @@ class HomePageFragment : Fragment() {
     private var isInitialized = false
 
     private val homePageViewModel by viewModels<HomePageViewModel>()
+    private val myAdapter by lazy { MyAdapter() }
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -61,10 +65,17 @@ class HomePageFragment : Fragment() {
             }
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
+            binding.apply {
+                rcvRecommend.adapter = myAdapter
+                rcvRecommend.layoutManager = LinearLayoutManager(requireContext())
+            }
+
+
             homePageViewModel.predictionResponseLiveData.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is NetworkResult.Success -> {
                         Log.d("UPLOADIMAGESUCCESS", "uploadImage: ${result.data}")
+                        myAdapter.submitList(result.data?.recommendation)
                     }
 
                     is NetworkResult.Error -> {
