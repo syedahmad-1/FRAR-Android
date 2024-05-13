@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:src="@drawable/guidelines_image"
+                android:src="@drawable/guidelines_img"
                 android:padding="10dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/uploadedImage"
