@@ -72,4 +72,7 @@
     <string name="square">Square</string>
     <string name="_100">100</string>
     <string name="result">Result:</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="welcome_back_you_ve_been_missed">Welcome Back, You\'ve been missed!</string>
 </resources>

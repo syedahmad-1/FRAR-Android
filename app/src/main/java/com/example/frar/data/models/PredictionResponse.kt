@@ -1,9 +1,18 @@
 package com.example.frar.data.models
 
+import com.google.gson.annotations.SerializedName
+
 
 data class Recommendation(
-    val recommendation: List<ItemRecommendation>,
+    val recommendation: RecommendationType,
     val result: FaceShapeResult
+)
+
+data class RecommendationType(
+    @SerializedName("male")
+    val maleRecommendation: List<ItemRecommendation>,
+    @SerializedName("female")
+    val femaleRecommendation: List<ItemRecommendation>,
 )
 
 data class ItemRecommendation(

@@ -1,13 +1,12 @@
 package com.example.frar.presentation
 
 import android.content.Intent
-import android.net.Uri
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,9 +16,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.example.frar.MyAdapter
 import com.example.frar.core.NetworkResult
 import com.example.frar.data.models.FaceShapeResult
+import com.example.frar.data.models.RecommendationType
 import com.example.frar.databinding.FragmentHomePageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,8 +37,8 @@ class HomePageFragment : Fragment() {
 
     private lateinit var binding: FragmentHomePageBinding
 
-    private val homePageViewModel:HomePageViewModel by viewModels()
-            private val myAdapter by lazy { MyAdapter() }
+    private val homePageViewModel: HomePageViewModel by viewModels()
+    private val myAdapter by lazy { MyAdapter() }
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -54,16 +56,21 @@ class HomePageFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentHomePageBinding.inflate(layoutInflater)
+
+
+        homePageViewModel.changeAddButtonState(false)
         // Inflate the layout for this fragment
         binding.btnAddImage.setOnClickListener {
-            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
 
-            homePageViewModel.imageUriLiveData.observe(viewLifecycleOwner){uri->
+            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            homePageViewModel.imageUriLiveData.observe(viewLifecycleOwner) { uri ->
                 requireContext().contentResolver.takePersistableUriPermission(uri, flag)
+
             }
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
         }
+
 
         binding.apply {
             rcvRecommend.adapter = myAdapter
@@ -81,34 +88,68 @@ class HomePageFragment : Fragment() {
 
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                homePageViewModel.imageUriLiveData.observe(viewLifecycleOwner){ uri->
-                    if (uri!=null){
-                        binding.imgDisplay.setImageURI(uri)
+                homePageViewModel.isAddButtonClicked.observe(viewLifecycleOwner){ isClicked->
+                    if (isClicked){
+                        binding.imgGuideline.visibility = View.GONE
+                    }
+                    if (!isClicked){
+                        binding.imgGuideline.visibility = View.VISIBLE
+                    }
+
+                }
+
+
+                homePageViewModel.imageUriLiveData.observe(viewLifecycleOwner) { uri ->
+                    if (uri != null) {
+                        binding.imgDisplay.load(uri){
+                            crossfade(100)
+                                .transformations(RoundedCornersTransformation(20f))
+                        }
+                        binding.imgGuideline.visibility = View.GONE
                     }
                 }
 
                 homePageViewModel.predictionResponseLiveData.observe(viewLifecycleOwner) { result ->
                     when (result) {
                         is NetworkResult.Success -> {
-                            Log.d("UPLOADIMAGESUCCESS", "uploadImage: ${result.data}")
-                            myAdapter.submitList(result.data?.recommendation)
+                            Log.d("UPLOAD_IMAGE_SUCCESS", "uploadImage: ${result.data}")
+
                             binding.apply {
                                 rcvRecommend.visibility = View.VISIBLE
                                 textView9.visibility = View.VISIBLE
                                 sliderLayout.visibility = View.VISIBLE
+                                btnLayout.visibility = View.VISIBLE
+                                binding.imgGuideline.visibility = View.GONE
                             }
                             result.data?.let { setUpVisibility(it.result) }
+                            myAdapter.submitList(result.data?.recommendation?.maleRecommendation)
+
+                            binding.apply {
+                                maleBtn.setOnClickListener {
+                                    homePageViewModel.switchButtonState(false)
+                                    toggleButtons(result.data?.recommendation)
+                                }
+                                femaleBtn.setOnClickListener {
+                                    homePageViewModel.switchButtonState(true)
+                                    toggleButtons(result.data?.recommendation)
+                                }
+                            }
+
+                            if (homePageViewModel.isFemaleBtnSelected.value==true){
+                                myAdapter.submitList(result.data?.recommendation?.femaleRecommendation)
+                            }
 
                         }
 
                         is NetworkResult.Error -> {
-                            Log.d("UPLOADIMAGEERROR", "uploadImage: ${result.message}")
+                            Log.d("UPLOAD_IMAGE_ERROR", "uploadImage: ${result.message}")
                             binding.apply {
                                 rcvRecommend.visibility = View.GONE
                                 textView9.visibility = View.GONE
                                 sliderLayout.visibility = View.GONE
+                                btnLayout.visibility = View.GONE
 
                             }
 
@@ -116,11 +157,12 @@ class HomePageFragment : Fragment() {
                         }
 
                         is NetworkResult.Loading -> {
-                            Log.d("UPLOADIMAGELOADING", "uploadImage: LOADING...")
+                            Log.d("UPLOAD_IMAGE_LOADING", "uploadImage: LOADING...")
                             binding.apply {
                                 rcvRecommend.visibility = View.GONE
                                 textView9.visibility = View.GONE
                                 sliderLayout.visibility = View.GONE
+                                btnLayout.visibility = View.GONE
                             }
                         }
                     }
@@ -131,30 +173,69 @@ class HomePageFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpVisibility(data: FaceShapeResult){
+    private fun toggleButtons(recommendation: RecommendationType?) {
+        homePageViewModel.isFemaleBtnSelected.observe(viewLifecycleOwner){bool->
+            if(bool){
+                    binding.apply {
+
+                        myAdapter.submitList(recommendation?.femaleRecommendation)
+
+                        femaleBtn.setBackgroundColor(Color.BLACK)
+                        femaleBtn.setTextColor(Color.WHITE)
+
+                        maleBtn.setBackgroundColor(Color.WHITE)
+                        maleBtn.setTextColor(Color.BLACK)
+                    }
+                }
+                else{
+                    binding.apply {
+                        myAdapter.submitList(recommendation?.maleRecommendation)
+                        femaleBtn.setBackgroundColor(Color.WHITE)
+                        femaleBtn.setTextColor(Color.BLACK)
+
+                        maleBtn.setBackgroundColor(Color.BLACK)
+                        maleBtn.setTextColor(Color.WHITE)
+                    }
+                }
+
+            }
+        }
+
+    private fun setUpVisibility(data: FaceShapeResult) {
         binding.apply {
             heartSl.progress = data.Heart.toInt()
-            heartPercentTv.text = data.Heart.toInt().toString()
+            var string = "${data.Heart.toInt()}%"
+            heartPercentTv.text = string
+
 
             roundSl.progress = data.Round.toInt()
-            roundPercentTv.text = data.Round.toInt().toString()
+            string = "${data.Round.toInt()}%"
+            roundPercentTv.text = string
+
+            string = "${data.Oblong.toInt()}%"
 
             oblongSl.progress = data.Oblong.toInt()
-            oblongPercentTv.text = data.Oblong.toInt().toString()
+            oblongPercentTv.text = string
+
+            string = "${data.Oval.toInt()}%"
 
             ovalSl.progress = data.Oval.toInt()
-            ovalPercentTv.text = data.Oblong.toInt().toString()
+            ovalPercentTv.text = string
+
+
+            string = "${data.Square.toInt()}%"
 
             squareSl.progress = data.Square.toInt()
-            squarePercentTv.text = data.Square.toInt().toString()
+            squarePercentTv.text = string
 
-            resultTv.text = "${data.result}"
+            resultTv.text = data.result
         }
     }
 
     private fun uploadImage() {
         val file = File(requireContext().filesDir, "image.png")
-        val inputStream = requireContext().contentResolver.openInputStream(homePageViewModel.imageUriLiveData.value!!)
+        val inputStream =
+            requireContext().contentResolver.openInputStream(homePageViewModel.imageUriLiveData.value!!)
         val outputStream = FileOutputStream(file)
         inputStream!!.copyTo(outputStream)
 

@@ -24,19 +24,42 @@ import javax.inject.Inject
 @HiltViewModel
 class HomePageViewModel @Inject constructor(application: Application, private val imageUploadRepository: ImageUploadRepository):AndroidViewModel(application) {
     var isInitialized: Boolean = false
+
     private val _predictionResultLiveData = MutableLiveData<NetworkResult<Recommendation>>()
     val predictionResponseLiveData get() = _predictionResultLiveData
 
 
-    var imageUri: Uri? = null
 
     private val _imageUriLiveData = MutableLiveData<Uri>()
     val imageUriLiveData get() = _imageUriLiveData
 
 
+    private val _isFemaleBtnSelectedLiveData = MutableLiveData<Boolean>()
+    val isFemaleBtnSelected get() = _isFemaleBtnSelectedLiveData
+
+    private val _isAddButtonClicked = MutableLiveData<Boolean>()
+    val isAddButtonClicked get() = _isAddButtonClicked
+
+
+
+
+
 
     fun uploadImage(image:MultipartBody.Part) =viewModelScope.launch(Dispatchers.IO) {
         uploadImageToPredict(image)
+    }
+
+    fun changeAddButtonState(state:Boolean){
+        if (imageUriLiveData.value==null){
+            _isAddButtonClicked.value = false
+        }else{
+            _isAddButtonClicked.value = true
+        }
+
+    }
+
+    fun switchButtonState(bool:Boolean){
+        isFemaleBtnSelected.value = bool
     }
 
     fun setImageUriVm(uri:Uri){
@@ -62,7 +85,7 @@ class HomePageViewModel @Inject constructor(application: Application, private va
             }
         }catch (e:Exception){
             withContext(Dispatchers.Main){
-                _predictionResultLiveData.value = NetworkResult.Error("API Error encountered")
+                _predictionResultLiveData.value = NetworkResult.Error(e.message)
             }
 
         }
